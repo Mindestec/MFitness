@@ -2,7 +2,7 @@
 Contributors: mindestec
 Tags: fitness, gym, exercise, workout, training, sports, classes, nutrition, diet, intructor, coaching
 Requires at least: 5.0
-Tested up to: 6.1
+Tested up to: 6.2
 Stable tag: 0.1.1
 Requires PHP: 7.2
 License: GPLv2 o anterior
