@@ -148,7 +148,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 			else{
 				for($j=1;$j<=$cantResult;$j++){
 					$pruebas=mfAptoNoApto($results, $baremos, $j, $oposiciones);
-					echo $pruebas;
+					echo esc_html($pruebas);
 				}
 			}
 			
@@ -281,7 +281,7 @@ function mfDibujarForm($wpdb, $table_name, $user_id){
 	<tr>
 		<form action="" method="POST"> <?php
 		for($i=1;$i<=$cantResult;$i++){ ?>
-			<td style="border: 1px solid black"><input type="number" name="prueba<?php echo $i?>" min="0.01" max="206" step="0.01" pattern="[0-9]+(\.[0-9]{1,2})?" required></td>
+			<td style="border: 1px solid black"><input type="number" name="prueba<?php echo intval($i)?>" min="0.01" max="206" step="0.01" pattern="[0-9]+(\.[0-9]{1,2})?" required></td>
 		<?php } ?>
 		<td style="border: 1px solid black"><input type="submit" name="submit" value="enviar"></td>
 		</form>
@@ -292,7 +292,7 @@ function mfDibujarForm($wpdb, $table_name, $user_id){
 		for($i=1; $i<=$cantResult; $i++){
 			$prueba=sanitize_text_field($_POST['prueba'.$i]);
 			if(empty($prueba)){
-				echo "Debe ingresar su marca en la prueba $i";
+				echo "Debe ingresar su marca en la prueba ".intval($i);
 				return;
 			}
 			
