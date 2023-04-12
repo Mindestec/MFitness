@@ -104,12 +104,12 @@ function mfExpUsuCsv() {
 	  // Generar el archivo CSV y descargarlo
 	  header('Content-Type: text/csv');
 	  header('Content-Disposition: attachment; filename=usuarios.csv');
-	  echo $csv;
+	  echo esc_attr($csv);
 	  exit();
   }
 	catch(Exception $e){
 
-		echo '<h1>'.$e->getMessage().'</h1>';
+		echo '<h1>'.esc_html($e->getMessage()).'</h1>';
 		?>
 
 		<style>
