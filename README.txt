@@ -7,7 +7,7 @@ Stable tag: 0.1.1
 Requires PHP: 7.2
 License: GPLv2 o anterior
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Icon: ./assets/LogoGif.gif
+Icon: ./assets/LogoMFitness.png
 Text Domain: Mindestec Fitness
 Author: Mindestec
 Author URI: https://mindestec.com
