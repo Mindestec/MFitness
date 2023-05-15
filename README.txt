@@ -2,12 +2,12 @@
 Contributors: mindestec
 Tags: fitness, gym, exercise, workout, training, sports, classes, nutrition, diet, intructor, coaching
 Requires at least: 5.0
-Tested up to: 6.2
-Stable tag: 0.1.1
-Requires PHP: 7.2
+Tested up to: 6.1
+Stable tag: 0.1.2
+Requires PHP: 7.2 o superior
 License: GPLv2 o anterior
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
-Icon: ./assets/LogoMFitness.png
+Icon: ./assets/LogoGif.gif
 Text Domain: Mindestec Fitness
 Author: Mindestec
 Author URI: https://mindestec.com
@@ -61,6 +61,9 @@ Policía Naciona, Policía Local, Guadia Civil, Ejercito Español y Seguridad Pr
 3. Visualizacion de los shortcodes mediante un ejemplo.
 
 == Changelog ==
+= 0.1.2 =
+* Nuevo filreado de exportación añadido (Ciudad).
+
 = 0.1.1 =
 * Se corrigió una vulnerabilidad de seguridad XSS en el área de Configuración. Actualización muy recomendable y necesaria.
 * Se modificó las referencias de los shortcodes.

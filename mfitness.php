@@ -4,8 +4,8 @@ Plugin Name: MFitness
 Plugin URI: https://wordpress.org/plugins/mfitness/
 Description: Permite a los suscriptores registrar sus puntuaciones de pruebas fisicas y mostrarlas en su perfil de forma gráfica.
 			 Utiliza los shortcode [mfitnessTabla] en la pagina donde quieras recolectar y mostrar las estadisticas y [mfitnessGraf] para insertar el gráfico tipo radar sobre las ultimas estadisticas introducidas.
-Version: 0.1.1
-Requires PHP: 8.0
+Version: 0.1.2
+Requires PHP: 7.2
 Author: Mindestec
 Author URI: https://mindestec.com
 License: GPLv2 o anterior

@@ -13,7 +13,7 @@ function mfCargarScript(){
 	$plugin_dir_uri = plugin_dir_url( 'MFitness/mfitness.php');
 	
 	//Cargar Chartjs v=4.2.1
-	wp_register_script( 'Chart', $plugin_dir_uri.'chartjs421/dist/chart.umd.js', array(), '4.2.1', false);
+	wp_register_script( 'Chart', $plugin_dir_uri.'js/chartjs421/dist/chart.umd.js', array(), '4.2.1', false);
 	wp_enqueue_script('Chart');
 	//wp_script_add_data('chart', 'type', 'module');
 }

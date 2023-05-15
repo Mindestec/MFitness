@@ -30,6 +30,13 @@ add_action('admin_post_exportar_usuarios', 'mfExpUsuCsv');
 
 function mfExpUsuCsv() {
   try{
+	  function sanitize_csv_field($field) {
+		// Eliminar caracteres de nueva línea y retorno de carro
+		$field = str_replace(array("\r", "\n"), '', $field);
+		// Escapar comillas dobles
+		$field = str_replace('"', '""', $field);
+		return '"' . $field . '"';
+	  }
 	  // Obtener los datos de usuario y metadatos seleccionados por el usuario
 	  $datos_usuario = isset($_POST['datos_usuario']) ? array_map('sanitize_text_field', $_POST['datos_usuario']) : array();
 	  $metadatos_usuario = isset($_POST['metadatos_usuario']) ? array_map('sanitize_text_field', $_POST['metadatos_usuario']) : array();
@@ -42,9 +49,6 @@ function mfExpUsuCsv() {
 
 	  // Agregar las metas seleccionadas por el usuario a la consulta
 	  foreach ($metadatos_usuario as $meta_key) {
-
-
-
 		array_push($args['fields'], $meta_key);
 		array_push($args['meta_query'], array('key' => $meta_key));
 	  }
@@ -67,7 +71,17 @@ function mfExpUsuCsv() {
 			));
 		  }
 		}
-
+	  
+		if (isset($_POST['filtro_ciudad']) && $_POST['filtro_ciudad'] != 'null') {
+    		if (in_array('ciudad', $metadatos_usuario) && $_POST['filtro_ciudad']) {
+        	  array_push($args['meta_query'], array(
+            	'key' => 'ciudad',
+            	'value' => sanitize_text_field($_POST['filtro_ciudad']),
+            	'compare' => '='
+        	  ));
+    		}
+		}
+	  
 	  // Obtener los usuarios que coinciden con la consulta
 	  $usuarios = get_users($args);
 
@@ -83,8 +97,10 @@ function mfExpUsuCsv() {
 
 		// Agregar los metadatos seleccionados por el usuario a la fila
 		foreach ($metadatos_usuario as $meta_key) {
-		  $meta_value = get_user_meta($usuario->ID, $meta_key, true);
-		  $row[$meta_key] = $meta_value;
+			$meta_value = get_user_meta($usuario->ID, $meta_key, true);
+			// Aplicar la codificación de caracteres adecuada al valor del metadato
+        	$meta_value = mb_convert_encoding($meta_value, 'UTF-8', 'UTF-8');
+		  	$row[$meta_key] = $meta_value;
 		}
 
 		// Agregar la fila a los datos
@@ -96,16 +112,19 @@ function mfExpUsuCsv() {
 	  // Convertir los datos a formato CSV
 	  $csv = '';
 	  $headers = array_keys($data[0]);
-	  $csv .= implode(',', $headers) . "\n";
+	  $csv .= implode(';', $headers) . "\n";
 	  foreach ($data as $row) {
-		$csv .= implode(',', array_values($row)) . "\n";
+		$csv .= implode(';', array_map('sanitize_csv_field', array_values($row))) . "\n";
 	  }
 
 	  // Generar el archivo CSV y descargarlo
-	  header('Content-Type: text/csv');
+	  header('Content-Type: text/csv; charset=UTF-8');
 	  header('Content-Disposition: attachment; filename=usuarios.csv');
-	  echo esc_attr($csv);
+	  echo "\xEF\xBB\xBF";
+	  echo html_entity_decode($csv);
 	  exit();
+	  
+	  
   }
 	catch(Exception $e){
 
@@ -187,6 +206,51 @@ function mfExpDatUsu(){ ?>
 									<option value="Ejercito">Ejercito</option>
 									<option value="Seguridad Privada">Seguridad Privada</option>
 								</select><br>
+								<br>
+                            	<input type="checkbox" name="metadatos_usuario[]" value="ciudad" onclick="mostrarFiltro('filtro_cuidad', this)" checked> Admitir noticias
+                            	<select name="filtro_cuidad" id="filtro_ciudad">
+                                	    <option value="null"></option>
+    										<?php
+    											$ciudades = array( 'A Coruña', 'Albacete', 'Alicante', 'Almería', 'Araba', 'Asturias','Ávila','Badajoz', 'Barcelona', 'Bizkaia', 'Burgos', 'Cantabria', 'Castellón', 'Ceuta', 'Ciudad Real', 'Cuenca', 'Cáceres', 'Cádiz', 'Córdoba', 'Gipuzkoa', 'Girona', 'Granada', 'Guadalajara', 'Huelva', 'Huesca', 'Islas Baleares', 'Jaén', 'La Rioja', 'Las Palmas', 'León', 'Lleida', 'Lugo', 'Madrid', 'Melilla', 'Murcia', 'Málaga', 'Navarra', 'Ourense', 'Palencia', 'Pontevedra', 'Salamanca', 'Santa Cruz de Tenerife', 'Segovia', 'Sevilla', 'Soria', 'Tarragona', 'Teruel', 'Toledo', 'Valencia', 'Valladolid', 'Zamora', 'Zaragoza', 
+    											);
+
+    											foreach ($ciudades as $ciudad) {
+        											echo '<option value="' . $ciudad . '">' . $ciudad . '</option>';
+    											}
+    										?>
+								</select>
+								<script>
+									
+   									var filtroCiudad = document.getElementById('filtro_ciudad');
+    								var opcionesCiudad = Array.from(filtroCiudad.options);
+
+    								filtroCiudad.addEventListener('input', function() {
+        								var busqueda = filtroCiudad.value.toLowerCase();
+
+        								opcionesCiudad.forEach(function(opcion) {
+            								var ciudad = opcion.value.toLowerCase();
+
+            								if (ciudad.includes(busqueda)) {
+                								opcion.style.display = 'block';
+            								} else {
+                								opcion.style.display = 'none';
+            								}
+        								});
+    								});
+									
+									var filtroNews = document.getElementById('filtro_admit_news');
+									var filtroCiudad = document.getElementById('filtro_ciudad');
+									var filtroCiudad1 = document.getElementById('filtro_ciudad1');
+									filtroNews.addEventListener('change', function(){
+										if(filtroNews.checked){
+											filtroCiudad.style.display='block';
+											filtroCiudad1.style.display='block';
+										} else {
+											filtroCiudad.style.display='none';
+											filtroCiudad1.style.display='none';
+										}
+									});
+								</script>
 							</td>
 						</tr>
 					</tbody>
