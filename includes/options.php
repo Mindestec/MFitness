@@ -7,15 +7,15 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: Mindestec Fitness
 */
 
-function mf_AgregarPagOpc() {
-  add_menu_page( 'Mindestec Fitness', 'MFitness', 'manage_options', 'opciones_de_mi_plugin', null, plugins_url('../assets/Logo.svg', __FILE__) );
-  add_submenu_page( 'opciones_de_mi_plugin', 'Colores del Gráfico', 'Colores del Gráfico', 'manage_options', 'opciones_de_mi_plugin', 'mf_GenPagOpc');
-  add_submenu_page('opciones_de_mi_plugin', 'Exportar Usuarios', 'Exportar Usuarios', 'manage_options', 'mf_ExpDatUsu', 'mf_ExpDatUsu');
+function mdtf_AgregarPagOpc() {
+  add_menu_page( 'Mindestec Fitness', 'mdtf_itness', 'manage_options', 'opciones_de_mi_plugin', null, plugins_url('../assets/Logo.svg', __FILE__) );
+  add_submenu_page( 'opciones_de_mi_plugin', 'Colores del Gráfico', 'Colores del Gráfico', 'manage_options', 'opciones_de_mi_plugin', 'mdtf_GenPagOpc');
+  add_submenu_page('opciones_de_mi_plugin', 'Exportar Usuarios', 'Exportar Usuarios', 'manage_options', 'mdtf_ExpDatUsu', 'mdtf_ExpDatUsu');
 }
 
-add_action( 'admin_menu', 'mf_AgregarPagOpc' );
+add_action( 'admin_menu', 'mdtf_AgregarPagOpc' );
 
-function mf_IconoMenuAdmin() {
+function mdtf_IconoMenuAdmin() {
     echo '<style>
         #adminmenu #toplevel_page_opciones_de_mi_plugin .wp-menu-image img {
             width: 20px;
@@ -23,12 +23,12 @@ function mf_IconoMenuAdmin() {
 		}
     </style>';
 }
-add_action('admin_head', 'mf_IconoMenuAdmin');
+add_action('admin_head', 'mdtf_IconoMenuAdmin');
 
 //Exportar datos de los usuarios para su futuro uso externo
-add_action('admin_post_exportar_usuarios', 'mf_ExpUsuCsv');
+add_action('admin_post_exportar_usuarios', 'mdtf_ExpUsuCsv');
 
-function mf_ExpUsuCsv() {
+function mdtf_ExpUsuCsv() {
   try{
 	  function sanitize_csv_field($field) {
 		// Eliminar caracteres de nueva línea y retorno de carro
@@ -162,7 +162,7 @@ function mf_ExpUsuCsv() {
 	}
 }
 
-function mf_ExpDatUsu(){ ?>
+function mdtf_ExpDatUsu(){ ?>
 
 	<style>
 		#mensaje{
@@ -174,7 +174,7 @@ function mf_ExpDatUsu(){ ?>
 	<h1>Exportar Datos de los Alumnos</h1>
 		<div class="wrap">
 			<h1>Exportar usuarios</h1>
-			<form method="post" action="<?php echo esc_url(admin_url('admin-post.php?action=mfExpUsuCsv')); ?>" id="exportar_usuarios_form">
+			<form method="post" action="<?php echo esc_url(admin_url('admin-post.php?action=mdtf_ExpUsuCsv')); ?>" id="exportar_usuarios_form">
 				<?php wp_nonce_field('exportar_usuarios'); ?>
 				<input type="hidden" name="action" value="exportar_usuarios">
 				<table class="form-table">
@@ -280,7 +280,7 @@ function mf_ExpDatUsu(){ ?>
 
 //Seccion Cambiar Colores de Grafico
 add_option( 'ultimo_color_seleccionado', '#FFFFFF' );
-function mf_ActUltColor() {
+function mdtf_ActUltColor() {
   //Definir variables de colores
   $color_de_fondo = '';
   $color_de_lineas = '';
@@ -339,10 +339,10 @@ function mf_ActUltColor() {
   }
 }
 
-add_action( 'admin_init', 'mf_ActUltColor' );
+add_action( 'admin_init', 'mdtf_ActUltColor' );
 
 // Función para generar la página de opciones
-function mf_GenPagOpc() {
+function mdtf_GenPagOpc() {
 	
 	$color_de_fondo = get_option( 'color_de_fondo', '#FFFFFF' );
  	$color_de_lineas = get_option( 'color_de_lineas', '#9A0E1C' );
@@ -390,7 +390,7 @@ function mf_GenPagOpc() {
 }
 
 // Agregar opciones de color a la base de datos
-function mf_AgregarOpcColor() {
+function mdtf_AgregarOpcColor() {
   // Agregar la opción de color de fondo
   add_option( 'color_de_fondo', '#FABC75' );
 
@@ -410,10 +410,10 @@ function mf_AgregarOpcColor() {
   add_option( 'color_bordes_puntosHover', '#9A0E1C' );
 	
 }
-add_action( 'admin_init', 'mf_AgregarOpcColor' );
+add_action( 'admin_init', 'mdtf_AgregarOpcColor' );
 
 // Reglas de validación y sanitización para las opciones de color
-function mfValidarOpcColor( $input ) {
+function mdtf_ValidarOpcColor( $input ) {
   // Validar y sanitizar la opción de color de fondo
   $nuevo_color_de_fondo = sanitize_hex_color( $input['color_de_fondo'] );
   if ( ! empty( $nuevo_color_de_fondo ) ) {
@@ -448,6 +448,6 @@ function mfValidarOpcColor( $input ) {
   }
   return $input;
 }
-add_filter( 'sanitize_option_opciones_de_mi_plugin', 'mfValidarOpcColor' );
+add_filter( 'sanitize_option_opciones_de_mi_plugin', 'mdtf_ValidarOpcColor' );
 
 

@@ -8,7 +8,7 @@ Text Domain: Mindestec Fitness
 */
 
 //Cargar los archivos necesarios
-function mf_CargarScript(){
+function mdtf_CargarScript(){
 	//Directorio raiz del plugin
 	$plugin_dir_uri = plugin_dir_url( 'MFitness/mfitness.php');
 	
@@ -16,11 +16,11 @@ function mf_CargarScript(){
 	wp_register_script( 'Chart', $plugin_dir_uri.'js/chartjs421/dist/chart.umd.js', array(), '4.2.1', false);
 	wp_enqueue_script('Chart');
 }
-add_action('wp_enqueue_scripts', 'mf_CargarScript');
+add_action('wp_enqueue_scripts', 'mdtf_CargarScript');
 
-add_shortcode('mfitnessGraf', 'mf_DibujarGrafico');
+add_shortcode('mfitnessGraf', 'mdtf_DibujarGrafico');
 
-function mf_DibujarGrafico(){
+function mdtf_DibujarGrafico(){
 
 	global $wpdb;
 	global $current_user;
