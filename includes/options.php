@@ -7,15 +7,15 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: Mindestec Fitness
 */
 
-function mfAgregarPagOpc() {
+function mf_AgregarPagOpc() {
   add_menu_page( 'Mindestec Fitness', 'MFitness', 'manage_options', 'opciones_de_mi_plugin', null, plugins_url('../assets/Logo.svg', __FILE__) );
-  add_submenu_page( 'opciones_de_mi_plugin', 'Colores del Gráfico', 'Colores del Gráfico', 'manage_options', 'opciones_de_mi_plugin', 'mfGenPagOpc');
-  add_submenu_page('opciones_de_mi_plugin', 'Exportar Usuarios', 'Exportar Usuarios', 'manage_options', 'mfExpDatUsu', 'mfExpDatUsu');
+  add_submenu_page( 'opciones_de_mi_plugin', 'Colores del Gráfico', 'Colores del Gráfico', 'manage_options', 'opciones_de_mi_plugin', 'mf_GenPagOpc');
+  add_submenu_page('opciones_de_mi_plugin', 'Exportar Usuarios', 'Exportar Usuarios', 'manage_options', 'mf_ExpDatUsu', 'mf_ExpDatUsu');
 }
 
-add_action( 'admin_menu', 'mfAgregarPagOpc' );
+add_action( 'admin_menu', 'mf_AgregarPagOpc' );
 
-function mfIconoMenuAdmin() {
+function mf_IconoMenuAdmin() {
     echo '<style>
         #adminmenu #toplevel_page_opciones_de_mi_plugin .wp-menu-image img {
             width: 20px;
@@ -23,12 +23,12 @@ function mfIconoMenuAdmin() {
 		}
     </style>';
 }
-add_action('admin_head', 'mfIconoMenuAdmin');
+add_action('admin_head', 'mf_IconoMenuAdmin');
 
 //Exportar datos de los usuarios para su futuro uso externo
-add_action('admin_post_exportar_usuarios', 'mfExpUsuCsv');
+add_action('admin_post_exportar_usuarios', 'mf_ExpUsuCsv');
 
-function mfExpUsuCsv() {
+function mf_ExpUsuCsv() {
   try{
 	  function sanitize_csv_field($field) {
 		// Eliminar caracteres de nueva línea y retorno de carro
@@ -121,7 +121,7 @@ function mfExpUsuCsv() {
 	  header('Content-Type: text/csv; charset=UTF-8');
 	  header('Content-Disposition: attachment; filename=usuarios.csv');
 	  echo "\xEF\xBB\xBF";
-	  echo html_entity_decode($csv);
+	  echo esc_html(html_entity_decode($csv));
 	  exit();
 	  
 	  
@@ -162,7 +162,7 @@ function mfExpUsuCsv() {
 	}
 }
 
-function mfExpDatUsu(){ ?>
+function mf_ExpDatUsu(){ ?>
 
 	<style>
 		#mensaje{
@@ -215,7 +215,7 @@ function mfExpDatUsu(){ ?>
     											);
 
     											foreach ($ciudades as $ciudad) {
-        											echo '<option value="' . $ciudad . '">' . $ciudad . '</option>';
+        											echo '<option value="' . esc_html($ciudad) . '">' . esc_html($ciudad) . '</option>';
     											}
     										?>
 								</select>
@@ -240,14 +240,11 @@ function mfExpDatUsu(){ ?>
 									
 									var filtroNews = document.getElementById('filtro_admit_news');
 									var filtroCiudad = document.getElementById('filtro_ciudad');
-									var filtroCiudad1 = document.getElementById('filtro_ciudad1');
 									filtroNews.addEventListener('change', function(){
 										if(filtroNews.checked){
 											filtroCiudad.style.display='block';
-											filtroCiudad1.style.display='block';
 										} else {
 											filtroCiudad.style.display='none';
-											filtroCiudad1.style.display='none';
 										}
 									});
 								</script>
@@ -283,7 +280,7 @@ function mfExpDatUsu(){ ?>
 
 //Seccion Cambiar Colores de Grafico
 add_option( 'ultimo_color_seleccionado', '#FFFFFF' );
-function mfActUltColor() {
+function mf_ActUltColor() {
   //Definir variables de colores
   $color_de_fondo = '';
   $color_de_lineas = '';
@@ -342,10 +339,10 @@ function mfActUltColor() {
   }
 }
 
-add_action( 'admin_init', 'mfActUltColor' );
+add_action( 'admin_init', 'mf_ActUltColor' );
 
 // Función para generar la página de opciones
-function mfGenPagOpc() {
+function mf_GenPagOpc() {
 	
 	$color_de_fondo = get_option( 'color_de_fondo', '#FFFFFF' );
  	$color_de_lineas = get_option( 'color_de_lineas', '#9A0E1C' );
@@ -393,7 +390,7 @@ function mfGenPagOpc() {
 }
 
 // Agregar opciones de color a la base de datos
-function mfAgregarOpcColor() {
+function mf_AgregarOpcColor() {
   // Agregar la opción de color de fondo
   add_option( 'color_de_fondo', '#FABC75' );
 
@@ -413,7 +410,7 @@ function mfAgregarOpcColor() {
   add_option( 'color_bordes_puntosHover', '#9A0E1C' );
 	
 }
-add_action( 'admin_init', 'mfAgregarOpcColor' );
+add_action( 'admin_init', 'mf_AgregarOpcColor' );
 
 // Reglas de validación y sanitización para las opciones de color
 function mfValidarOpcColor( $input ) {

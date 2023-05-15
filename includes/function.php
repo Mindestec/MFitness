@@ -8,20 +8,20 @@ Text Domain: Mindestec Fitness
 */
 
 //Cargar los archivos necesarios
-function mfCargarScript(){
+function mf_CargarScript(){
 	//Directorio raiz del plugin
 	$plugin_dir_uri = plugin_dir_url( 'MFitness/mfitness.php');
 	
 	//Cargar Chartjs v=4.2.1
 	wp_register_script( 'Chart', $plugin_dir_uri.'js/chartjs421/dist/chart.umd.js', array(), '4.2.1', false);
 	wp_enqueue_script('Chart');
-	//wp_script_add_data('chart', 'type', 'module');
 }
-add_action('wp_enqueue_scripts', 'mfCargarScript');
+add_action('wp_enqueue_scripts', 'mf_CargarScript');
 
-add_shortcode('mfitnessGraf', 'mfDibujarGrafico');
+add_shortcode('mfitnessGraf', 'mf_DibujarGrafico');
 
-function mfDibujarGrafico(){
+function mf_DibujarGrafico(){
+
 	global $wpdb;
 	global $current_user;
 	$user_id=absint($current_user->ID);
@@ -47,6 +47,9 @@ function mfDibujarGrafico(){
 	$maxEstadistica=0.0;
 	
 	//Recolestar los datos del ultimo simulacro
+	if($primerResult==null){
+		$maxEstadisticas=0.0;
+	}else{
 	foreach ($primerResult as $propiedad => $valor) {
 			if(is_numeric($valor)){
 				$primerData[]=$valor;
@@ -54,6 +57,7 @@ function mfDibujarGrafico(){
 					$maxEstadistica=$valor;
 				}
 			}
+	}
 	}
 	$lineasInter = floor($maxEstadistica/4);
 	
@@ -71,10 +75,8 @@ function mfDibujarGrafico(){
 	$labels_json = json_encode($labels);
 	$primerData_json = json_encode($primerData);
 	
-	//$plugin_dir_uri = plugin_dir_url( 'MFitness/mfitness.php' );
-	//wp_enqueue_script( 'Chart', $plugin_dir_uri.'chartjs421/dist/chart.umd.js', array(), null, true);
 	?>
-	<!--script src="/wp-content/plugins/MFitness/chartjs421/dist/chart.umd.js"></script>-->
+
 	<canvas id='grafico'></canvas>
 
 	<script>
@@ -119,7 +121,6 @@ function mfDibujarGrafico(){
 						  display:true,
 						  color: 'rgba(27,28,34,0.9)',
 					  	  lineWidth: 1
-						  //circular: true
 
 					  },
 					grid: {
@@ -161,9 +162,7 @@ function mfDibujarGrafico(){
 			config
 		);
 		
-		
 	</script>
 
-	
-	<?php
+	<?php	
 	}

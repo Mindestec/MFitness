@@ -119,7 +119,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 	mfDibujarForm($wpdb, $table_name, $user_id);
 		echo '<tr>';
 		for($i=1;$i<=$cantResult;$i++){
-			echo '<th style="border: 1px solid black">Prueba'.($i).'</th>';
+			echo '<th style="border: 1px solid black">Prueba'.intval($i).'</th>';
 		}
 		if($oposiciones=='Policía Nacional'){
 			echo '<th style="border: 1px solid black"> Puntos </th>';
@@ -134,7 +134,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 			if($oposiciones=='Policía Nacional'){
 			for($j=1;$j<=$cantResult;$j++){
 				
-				echo '<td style="border: 1px solid black">'.esc_attr($results->{"prueba".$j}).'</td>';
+				echo '<td style="border: 1px solid black">'.esc_attr($results->{"prueba".intval($j)}).'</td>';
 			}
 			
 				$puntos=mfPuntosPolNac($results, $baremos);
