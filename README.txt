@@ -62,7 +62,7 @@ Policía Naciona, Policía Local, Guadia Civil, Ejercito Español y Seguridad Pr
 
 == Changelog ==
 = 0.1.2 =
-* Nuevo filreado de exportación añadido (Ciudad).
+* Nuevo filtrado de exportación añadido (Ciudad).
 
 = 0.1.1 =
 * Se corrigió una vulnerabilidad de seguridad XSS en el área de Configuración. Actualización muy recomendable y necesaria.
