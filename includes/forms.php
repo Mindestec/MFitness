@@ -8,12 +8,12 @@ Text Domain: Mindestec Fitness
 */
 //crear formularios de inicio y de registro
 
-add_shortcode('mfitnessTabla', 'mfContenido');
+add_shortcode('mfitnessTabla', 'mdtf_Contenido');
 
-function mfContenido(){
+function mdtf_Contenido(){
 	if(is_user_logged_in()){
 		ob_start();
-		mfCrearVerEstadisticas();
+		mdtf_CrearVerEstadisticas();
 		return ob_get_clean();
 	}
 	else{
@@ -22,22 +22,22 @@ function mfContenido(){
 }
 
 
-function mfCrearVerEstadisticas(){
+function mdtf_CrearVerEstadisticas(){
 	global $wpdb;
 	global $current_user;
 	$user_id=absint($current_user->ID);
-	$mprefix="mf";
-	list($genero,$oposiciones)=mfObtGenOpos();
+	$mprefix="mdtf";
+	list($genero,$oposiciones)=mdtf_ObtGenOpos();
 	$table_name=$wpdb->prefix.$mprefix;//.$user_id
 	$tablas=$wpdb->get_var("SHOW TABLES LIKE '$table_name'");
 	if($tablas!=$table_name){
-		mfCrearTablaUser($wpdb, $table_name);
+		mdtf_CrearTablaUser($wpdb, $table_name);
 	}
-	mfMostrarPruebas();
-	mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones);
+	mdtf_MostrarPruebas();
+	mdtf_DibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones);
 }
 
-function mfObtGenOpos(){
+function mdtf_ObtGenOpos(){
 	global $current_user;
 	$user_id=absint($current_user->ID);
 	$genero = sanitize_text_field(get_user_meta( $user_id, 'genero', true ));
@@ -45,7 +45,7 @@ function mfObtGenOpos(){
 	return [$genero, $oposiciones];
 }
 
-function mfObtEdadNivel(){
+function mdtf_ObtEdadNivel(){
 	global $current_user;
 	$user_id=absint($current_user->ID);
 	$fecha=sanitize_text_field(get_user_meta( $user_id, 'birth_date', true ));
@@ -59,7 +59,7 @@ function mfObtEdadNivel(){
 }
 
 // Crear nueva tabla de estadisticas para cada usuario *
-function mfCrearTablaUser($wpdb, $table_name){
+function mdtf_CrearTablaUser($wpdb, $table_name){
 	$charset_collate=$wpdb->get_charset_collate();
 	$sql=$wpdb->prepare("CREATE TABLE IF NOT EXISTS $table_name(
 		id int NOT NULL AUTO_INCREMENT,
@@ -79,7 +79,7 @@ function mfCrearTablaUser($wpdb, $table_name){
 }
 
 //* Recolectar las pruebas introducidas de cada oposicion
-function mfRecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones){
+function mdtf_RecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones){
 	$result=array();
 	if($oposiciones=="Policía Local"){
 		$query = $wpdb->prepare("SELECT prueba1, prueba2, prueba3, prueba4, prueba5, prueba6 FROM `$table_name` WHERE oposicion = %s AND user_id = %d ORDER BY id DESC LIMIT 3", $oposiciones, $user_id);
@@ -106,9 +106,9 @@ function mfRecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones){
 }
 
 // Dibuja una tabla de los resultados dependiendo de la longitud del resultado de la funcion recolectar_pruebas()
-function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
-	$result=mfRecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones);
-	list($edad, $nivel)=mfObtEdadNivel();
+function mdtf_DibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
+	$result=mdtf_RecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones);
+	list($edad, $nivel)=mdtf_ObtEdadNivel();
 	if(empty($result[0])){
 		$cantResult=count($result);
 	}else{
@@ -116,7 +116,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 	}
 	
 	echo '<table>';
-	mfDibujarForm($wpdb, $table_name, $user_id);
+	mdtf_DibujarForm($wpdb, $table_name, $user_id);
 		echo '<tr>';
 		for($i=1;$i<=$cantResult;$i++){
 			echo '<th style="border: 1px solid black">Prueba'.intval($i).'</th>';
@@ -127,7 +127,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 		echo '</tr>';
 
 	include_once('baremos.php');
-	$baremos=mfSolicitarBaremos($genero, $oposiciones, $edad);
+	$baremos=mdtf_SolicitarBaremos($genero, $oposiciones, $edad);
 	if(!empty($result[0])){
 		foreach($result as $results){
 			echo '<tr>';
@@ -137,7 +137,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 				echo '<td style="border: 1px solid black">'.esc_attr($results->{"prueba".intval($j)}).'</td>';
 			}
 			
-				$puntos=mfPuntosPolNac($results, $baremos);
+				$puntos=mdtf_PuntosPolNac($results, $baremos);
 				if($puntos>=15){
 					echo '<td style="border: 1px solid black; background-color: green; color: white;">'.number_format($puntos, 0, '.',',').'</td>';
 				}
@@ -147,7 +147,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 			}
 			else{
 				for($j=1;$j<=$cantResult;$j++){
-					$pruebas=mfAptoNoApto($results, $baremos, $j, $oposiciones);
+					$pruebas=mdtf_AptoNoApto($results, $baremos, $j, $oposiciones);
 					echo esc_html($pruebas);
 				}
 			}
@@ -164,7 +164,7 @@ function mfDibujarTabla($wpdb, $table_name, $user_id, $genero, $oposiciones){
 	
 }
 
-function mfAptoNoApto($results, $baremos, $j, $oposiciones){
+function mdtf_AptoNoApto($results, $baremos, $j, $oposiciones){
 	$prueba=$results->{"prueba".$j};
 	if($oposiciones=='Policía Local'){
 		if($j==1 || $j==5 || $j==6){
@@ -232,7 +232,7 @@ function mfAptoNoApto($results, $baremos, $j, $oposiciones){
 
 }
 
-function mfPuntosPolNac($results, $baremos){
+function mdtf_PuntosPolNac($results, $baremos){
 	$puntos=0;
 	
 	$u=$results->{"prueba2"};
@@ -266,11 +266,11 @@ function mfPuntosPolNac($results, $baremos){
 }
 
 
-function mfDibujarForm($wpdb, $table_name, $user_id){
+function mdtf_DibujarForm($wpdb, $table_name, $user_id){
 	global $current_user;
-	list($genero, $oposiciones)=mfObtGenOpos();
+	list($genero, $oposiciones)=mdtf_ObtGenOpos();
 	$user_id=$current_user->ID;
-	$result=mfRecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones);
+	$result=mdtf_RecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones);
 	if(empty($result[0])){
 		$cantResult=count($result);
 	}else{
@@ -300,13 +300,13 @@ function mfDibujarForm($wpdb, $table_name, $user_id){
 			
 		}
 		include('insert.php');
-		mfInsertarDatos($wpdb, $table_name, $user_id, $oposiciones, $pruebas);
+		mdtf_InsertarDatos($wpdb, $table_name, $user_id, $oposiciones, $pruebas);
 	}
 }
 
-function mfMostrarPruebas(){
-	list($genero, $oposiciones)=mfObtGenOpos();
-	list($edad, $nivel)=mfObtEdadNivel();
+function mdtf_MostrarPruebas(){
+	list($genero, $oposiciones)=mdtf_ObtGenOpos();
+	list($edad, $nivel)=mdtf_ObtEdadNivel();
 	
 	if($oposiciones=='Policía Nacional' || $oposiciones=='Policia Nacional'){
 		echo 'Prueba 1: Circuito de agilidad (Medición en segundos). <br>';

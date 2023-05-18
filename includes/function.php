@@ -13,7 +13,7 @@ function mdtf_CargarScript(){
 	$plugin_dir_uri = plugin_dir_url( 'MFitness/mfitness.php');
 	
 	//Cargar Chartjs v=4.2.1
-	wp_register_script( 'Chart', $plugin_dir_uri.'js/chartjs421/dist/chart.umd.js', array(), '4.2.1', false);
+	wp_register_script( 'Chart', $plugin_dir_uri.'node_modules/chart.js/dist/chart.umd.js', array(), '4.2.1', false);
 	wp_enqueue_script('Chart');
 }
 add_action('wp_enqueue_scripts', 'mdtf_CargarScript');
@@ -25,11 +25,11 @@ function mdtf_DibujarGrafico(){
 	global $wpdb;
 	global $current_user;
 	$user_id=absint($current_user->ID);
-	$mprefix='mf';
+	$mprefix='mdtf';
 	$table_name=$wpdb->prefix.$mprefix;
 	include_once('forms.php');
-	list($genero,$oposiciones)=mfObtGenOpos();
-	$result=mfRecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones);
+	list($genero,$oposiciones)=mdtf_ObtGenOpos();
+	$result=mdtf_RecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones);
 	
 	if(empty($result[0])){
 		$cantResult=count($result);

@@ -10,7 +10,7 @@ Text Domain: Mindestec Fitness
 // 
 
 //Arrays de las pruebas a superar
-function mfSolicitarBaremos($genero, $oposiciones, $edad){
+function mdtf_SolicitarBaremos($genero, $oposiciones, $edad){
 	$array_principal=array();
 	if($oposiciones=="Policía Nacional"){
 		

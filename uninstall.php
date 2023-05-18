@@ -6,7 +6,7 @@ License: GPLv2 o anterior
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: Mindestec Fitness*/
 
-function mfDesinstalar(){
+function mdtf_Desinstalar(){
 	if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 		die;
 	}

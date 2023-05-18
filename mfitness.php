@@ -32,4 +32,4 @@ include (plugin_dir_path(__FILE__).'includes/forms.php');
 include (plugin_dir_path(__FILE__).'includes/options.php');
 //include (plugin_dir_path(__FILE__).'includes/insert.php');
 include('uninstall.php');
-register_uninstall_hook(__FILE__, 'mfDesinstalar');
+register_uninstall_hook(__FILE__, 'mdtf_Desinstalar');

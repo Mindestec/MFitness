@@ -8,7 +8,7 @@ Text Domain: Mindestec Fitness
 */
 
 function mdtf_AgregarPagOpc() {
-  add_menu_page( 'Mindestec Fitness', 'mdtf_itness', 'manage_options', 'opciones_de_mi_plugin', null, plugins_url('../assets/Logo.svg', __FILE__) );
+  add_menu_page( 'Mindestec Fitness', 'MFitness', 'manage_options', 'opciones_de_mi_plugin', null, plugins_url('../assets/Logo.svg', __FILE__) );
   add_submenu_page( 'opciones_de_mi_plugin', 'Colores del Gráfico', 'Colores del Gráfico', 'manage_options', 'opciones_de_mi_plugin', 'mdtf_GenPagOpc');
   add_submenu_page('opciones_de_mi_plugin', 'Exportar Usuarios', 'Exportar Usuarios', 'manage_options', 'mdtf_ExpDatUsu', 'mdtf_ExpDatUsu');
 }
