@@ -6,7 +6,7 @@ License: GPLv2 o anterior
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: Mindestec Fitness*/
 
-function mfInsertarDatos($wpdb, $table_name, $user_id, $oposiciones, $pruebas){
+function mdtf_InsertarDatos($wpdb, $table_name, $user_id, $oposiciones, $pruebas){
 	
 			// Insertar datos en la bd
 		$wpdb->insert($table_name, array(
