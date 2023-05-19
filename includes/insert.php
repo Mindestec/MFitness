@@ -29,6 +29,6 @@ function mdtf_InsertarDatos($wpdb, $table_name, $user_id, $oposiciones, $pruebas
 			'%f',
 			'%f'
 		));
-	wp_redirect('/register/');
+	wp_redirect('/usuario/');
 	exit;
 	}
