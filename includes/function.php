@@ -48,16 +48,16 @@ function mdtf_DibujarGrafico(){
 	
 	//Recolestar los datos del ultimo simulacro
 	if(empty($primerResult)){
-		$maxEstadisticas=0.0;
+		$maxEstadisticas=1;
 	}else{
-	foreach ($primerResult as $propiedad => $valor) {
+		foreach ($primerResult as $propiedad => $valor) {
 			if(is_numeric($valor)){
 				$primerData[]=$valor;
 				if($maxEstadistica<$valor){
 					$maxEstadistica=$valor;
 				}
 			}
-	}
+		}
 	}
 	$lineasInter = floor($maxEstadistica/4);
 	
