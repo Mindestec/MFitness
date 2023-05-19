@@ -47,7 +47,7 @@ function mdtf_DibujarGrafico(){
 	$maxEstadistica=0.0;
 	
 	//Recolestar los datos del ultimo simulacro
-	if($primerResult==null){
+	if(empty($primerResult)){
 		$maxEstadisticas=0.0;
 	}else{
 	foreach ($primerResult as $propiedad => $valor) {
