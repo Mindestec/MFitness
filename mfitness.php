@@ -27,9 +27,12 @@ Debería haber recibido una copia de la Licencia Pública General GNU
 junto con MFitness. De lo contrario, consulte https://www.gnu.org/licenses/gpl-2.0.html
 
 */
+
+// Incluir y ejecutar los archivos principales del complemento
 include (plugin_dir_path(__FILE__).'includes/function.php');
 include (plugin_dir_path(__FILE__).'includes/forms.php');
 include (plugin_dir_path(__FILE__).'includes/options.php');
-//include (plugin_dir_path(__FILE__).'includes/insert.php');
+
+// Incluir y crear hook de Desinstalar el complemento
 include('uninstall.php');
 register_uninstall_hook(__FILE__, 'mdtf_Desinstalar');

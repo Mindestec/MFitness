@@ -6,7 +6,7 @@ License: GPLv2 o anterior
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Text Domain: Mindestec Fitness
 */
-
+// Añadir menu y submenus al panel de administracion del sitio
 function mdtf_AgregarPagOpc() {
   add_menu_page( 'Mindestec Fitness', 'MFitness', 'manage_options', 'opciones_de_mi_plugin', null, plugins_url('../assets/Logo.svg', __FILE__) );
   add_submenu_page( 'opciones_de_mi_plugin', 'Colores del Gráfico', 'Colores del Gráfico', 'manage_options', 'opciones_de_mi_plugin', 'mdtf_GenPagOpc');
@@ -15,6 +15,9 @@ function mdtf_AgregarPagOpc() {
 
 add_action( 'admin_menu', 'mdtf_AgregarPagOpc' );
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Añadir un icono al enlace principal del menu
 function mdtf_IconoMenuAdmin() {
     echo '<style>
         #adminmenu #toplevel_page_opciones_de_mi_plugin .wp-menu-image img {
@@ -24,6 +27,7 @@ function mdtf_IconoMenuAdmin() {
     </style>';
 }
 add_action('admin_head', 'mdtf_IconoMenuAdmin');
+//------------------------------------------------------------------------------------------------------------------------------------------------------
 
 //Exportar datos de los usuarios para su futuro uso externo
 add_action('admin_post_exportar_usuarios', 'mdtf_ExpUsuCsv');
@@ -162,6 +166,9 @@ function mdtf_ExpUsuCsv() {
 	}
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Formulario para filtar la exportacion de los datos de los usuarios 
 function mdtf_ExpDatUsu(){ ?>
 
 	<style>
@@ -278,6 +285,8 @@ function mdtf_ExpDatUsu(){ ?>
 <?php
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
 //Seccion Cambiar Colores de Grafico
 add_option( 'ultimo_color_seleccionado', '#FFFFFF' );
 function mdtf_ActUltColor() {
@@ -341,6 +350,8 @@ function mdtf_ActUltColor() {
 
 add_action( 'admin_init', 'mdtf_ActUltColor' );
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // Función para generar la página de opciones
 function mdtf_GenPagOpc() {
 	
@@ -389,6 +400,8 @@ function mdtf_GenPagOpc() {
 
 }
 
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
 // Agregar opciones de color a la base de datos
 function mdtf_AgregarOpcColor() {
   // Agregar la opción de color de fondo
@@ -411,6 +424,8 @@ function mdtf_AgregarOpcColor() {
 	
 }
 add_action( 'admin_init', 'mdtf_AgregarOpcColor' );
+
+//------------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Reglas de validación y sanitización para las opciones de color
 function mdtf_ValidarOpcColor( $input ) {

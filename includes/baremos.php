@@ -9,7 +9,7 @@ Text Domain: Mindestec Fitness
 // Crear variable edad y nivel para la oposicion ejercito
 // 
 
-//Arrays de las pruebas a superar
+// Funcion para solicitar los valores de las pruebas fisicas que hay que superar
 function mdtf_SolicitarBaremos($genero, $oposiciones, $edad){
 	$array_principal=array();
 	if($oposiciones=="Policía Nacional"){

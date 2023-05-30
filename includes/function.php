@@ -17,7 +17,9 @@ function mdtf_CargarScript(){
 	wp_enqueue_script('Chart');
 }
 add_action('wp_enqueue_scripts', 'mdtf_CargarScript');
+//------------------------------------------------------------------------------------------------------------------------------------------------------
 
+// Añadir shortcode para dibujar el Grafico
 add_shortcode('mfitnessGraf', 'mdtf_DibujarGrafico');
 
 function mdtf_DibujarGrafico(){
@@ -46,24 +48,26 @@ function mdtf_DibujarGrafico(){
 	$primerResult=array_shift($result);
 	$maxEstadistica=0.0;
 	
-	//Recolestar los datos del ultimo simulacro
-	if($primerResult==null){
-		$maxEstadisticas=0.0;
+	//Recoletar los datos del ultimo simulacro
+	if(empty($primerResult)){
+		$maxEstadistica=1;
 	}else{
-	foreach ($primerResult as $propiedad => $valor) {
+		foreach ($primerResult as $propiedad => $valor) {
 			if(is_numeric($valor)){
 				$primerData[]=$valor;
 				if($maxEstadistica<$valor){
 					$maxEstadistica=$valor;
 				}
 			}
+		}
 	}
-	}
+	
 	$lineasInter = floor($maxEstadistica/4);
+	
 	
 	//Recolectar colores elegidos
 	$color_de_fondo = get_option( 'color_de_fondo', '#FFFFFF80' );
-	if(!($color_de_fondo=='#FFFFFF80')){
+	if($color_de_fondo!='#FFFFFF80'){
 		$color_fondo=$color_de_fondo.'80';
 	}
  	$color_de_lineas = get_option( 'color_de_lineas', '#9A0E1C' );
@@ -140,7 +144,7 @@ function mdtf_DibujarGrafico(){
 		                  beginAtZero: true,
 						  suggestedMin: 0,
 		                  suggestedMax:<?php echo esc_html($maxEstadistica) ?>,
-						  stepSize: <?php echo esc_html($lineasInter) ?>,
+						  stepSize: <?php echo intval($lineasInter) ?>,
 					  	  maxTicksLimit: 6,
 						  z: 2
 		            }
@@ -166,3 +170,19 @@ function mdtf_DibujarGrafico(){
 
 	<?php	
 	}
+//------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// registrar peticion AJAX para obtener la oposicion del usuario
+function mdtf_register_ajax_actions() {
+  add_action('wp_ajax_mdtf_getOposiciones', 'mdtf_getOposiciones');
+  add_action('wp_ajax_nopriv_mdtf_getOposiciones', 'mdtf_getOposiciones');
+}
+
+add_action('init', 'mdtf_register_ajax_actions');
+
+function mdtf_getOposiciones() {
+  include_once('forms.php');
+  list($genero,$oposiciones)=mdtf_ObtGenOpos();
+  wp_send_json_success($oposiciones);
+  wp_die();
+}

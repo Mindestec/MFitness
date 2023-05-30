@@ -61,6 +61,10 @@ Policía Naciona, Policía Local, Guadia Civil, Ejercito Español y Seguridad Pr
 3. Visualizacion de los shortcodes mediante un ejemplo.
 
 == Changelog ==
+= 0.1.3 =
+* Iconos indicativos para mostrar el avance comparado con el primer simulacro registrado.
+* Probado hasta 6.2.2
+
 = 0.1.2 =
 * Nuevo filreado de exportación añadido (Ciudad).
 
@@ -70,5 +74,5 @@ Policía Naciona, Policía Local, Guadia Civil, Ejercito Español y Seguridad Pr
 * Se modificó las funciones genericas del complemento.
 * Probado hasta 6.2
 
-= 0.1 =
+= 0.1.0 =
 * Probado hasta 6.1.1
