@@ -2,8 +2,8 @@
 Contributors: mindestec
 Tags: fitness, gym, exercise, workout, training, sports, classes, nutrition, diet, intructor, coaching
 Requires at least: 5.0
-Tested up to: 6.2
-Stable tag: 0.1.2
+Tested up to: 6.2.2
+Stable tag: 0.1.3
 Requires PHP: 7.2 o superior
 License: GPLv2 o anterior
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -61,6 +61,10 @@ Policía Naciona, Policía Local, Guadia Civil, Ejercito Español y Seguridad Pr
 3. Visualizacion de los shortcodes mediante un ejemplo.
 
 == Changelog ==
+= 0.1.3 =
+* Iconos añadidos en cada prueba indicando si ha hecho mejor, peor o igual marca de la prueba.
+* Probado hasta 6.2.2
+
 = 0.1.2 =
 * Nuevo filreado de exportación añadido (Ciudad).
 
