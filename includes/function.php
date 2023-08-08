@@ -31,6 +31,8 @@ function mdtf_DibujarGrafico(){
 	$table_name=$wpdb->prefix.$mprefix;
 	include_once('forms.php');
 	list($genero,$oposiciones)=mdtf_ObtGenOpos();
+	include_once('baremos.php');
+	$baremos=mdtf_SolicitarBaremos($genero, $oposiciones, $edad);
 	$result=mdtf_RecolectarPruebas($wpdb, $table_name, $user_id, $oposiciones);
 	
 	if(empty($result[0])){
@@ -48,6 +50,15 @@ function mdtf_DibujarGrafico(){
 	$primerResult=array_shift($result);
 	$maxEstadistica=0.0;
 	
+	//Mostrar los puntos y no las marcas
+	if($oposiciones==='Policía Nacional'){
+		include_once('forms.php');
+		foreach($primerResult as $key => $valor){
+			$puntos=mdtf_PuntosIndivPolNac($valor, $baremos);
+			$primerResult->{$key}=$puntos;
+		}
+	}
+	
 	//Recoletar los datos del ultimo simulacro
 	if(empty($primerResult)){
 		$maxEstadistica=1;
@@ -64,6 +75,7 @@ function mdtf_DibujarGrafico(){
 	
 	$lineasInter = floor($maxEstadistica/4);
 	
+
 	
 	//Recolectar colores elegidos
 	$color_de_fondo = get_option( 'color_de_fondo', '#FFFFFF80' );
